@@ -1,3 +1,6 @@
+// Configuration
+const config = require('./config/config');
+
 // Express JS
 const express = require('express');
 const app = express();
@@ -23,11 +26,7 @@ authenticator.secure(app);
 app.use('/token', require("./routes/token"));
 app.use('/file', require("./routes/file"));
 
-// Configuration
-const config = require('config/config');
 
 // Start the Server
 app.listen(config.host_port, config.host);
 console.log(`Running on http://${config.host}:${config.host_port}`);
-
-module.exports = app;
