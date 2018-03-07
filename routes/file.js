@@ -20,7 +20,7 @@ router.post('/register', checkSchema(fileValidator), (req, res) => {
 
         let filePath = req.body.path;
 
-        filePath = config.files.root_dir + user.app_name + path.normalize(filePath);
+        filePath = config.files.root_dir + path.sep + user.app_name + path.sep + path.normalize(filePath);
 
         let createToken = (file) => {
             tokenGenerator.generate(file, user, (token, error) => {
@@ -36,7 +36,7 @@ router.post('/register', checkSchema(fileValidator), (req, res) => {
             if (!file) {
                 fileRepository.create({path: filePath}, user, (file, errors) => {
                     if(errors) {
-                        return res.status(500).json({errors: errors.mapped()});
+                        return res.status(500).json({errors: errors});
                     }
                     createToken(file);
                 });

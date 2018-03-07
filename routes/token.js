@@ -10,8 +10,8 @@ const tokenGenerator = require('../services/token/token-generator');
  */
 router.post('/generate', (req, res) => {
 	const user = req._user;
-    const filePath = config.files.root_dir + user.app_name + path.normalize(req.body.path);
-	const file = {path: filePath};
+    const filePath = config.files.root_dir + path.sep + user.app_name + path.sep + path.normalize(req.body.path);
+    const file = {path: filePath};
 
     tokenGenerator.generate(file, user, (token, error) => {
         if(error) {
