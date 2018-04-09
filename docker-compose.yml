@@ -1,0 +1,32 @@
+version: "2"
+services:
+  mysql:
+    restart: always
+    build: ./mysql/
+    ports:
+      - 33061:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: p@ssw0rd
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+
+  carbon:
+    restart: always
+    build: ./carbon/
+    environment:
+      NODE_ENV: 'development'
+      NTIFS_HTTP_HOST: '0.0.0.0'
+      NTIFS_HTTP_PORT: 8080
+      NTIFS_BASE_URL: 'http://10.31.31.2:8080/'
+      NTIFS_FILES_ROOT: '/var/www/files'
+      NTIFS_DB_HOST: 'mysql'
+      NTIFS_DB_PORT: 3306
+      NTIFS_DB_USER: 'root'
+      NTIFS_DB_PASSWORD: 'p@ssw0rd'      
+    ports:
+      - 8080:8080    
+    volumes:
+      - ./files:/var/www/files
+    depends_on:
+      - mysql
